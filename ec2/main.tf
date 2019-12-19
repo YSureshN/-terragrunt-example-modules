@@ -35,6 +35,8 @@ resource "aws_autoscaling_group" "autoscaling" {
   }
 }
 
+data "aws_availability_zones" "all" {}
+
 # ---------------------------------------------------------------------------------------------------------------------
 # CREATE THE LAUNCH CONFIGURATION
 # This defines what runs on each EC2 Instance in the ASG. To keep the example simple, we run a plain Ubuntu AMI and

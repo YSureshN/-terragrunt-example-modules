@@ -68,7 +68,6 @@ resource "aws_launch_configuration" "launch_configuration" {
               systemctl enable mariadb
               systemctl start mariadb
               systemctl restart httpd
-
               cd /var/www/html
               cp -p wp-config-sample.php wp-config.php
               sed -i "/DB_HOST/s/'[^']*'/'${data.aws_ssm_parameter.dbendpoint.value}'/2" wp-config.php

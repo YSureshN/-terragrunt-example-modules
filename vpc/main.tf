@@ -119,7 +119,7 @@ resource "aws_subnet" "db_subnet" {
   }
 }
 
-#Route table: database
+#Route table: database.
 resource "aws_route_table" "db_route" {
   vpc_id = aws_vpc.myvpc.id
   tags = {

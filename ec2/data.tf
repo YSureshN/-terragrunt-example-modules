@@ -19,7 +19,7 @@ data "aws_ssm_parameter" "dbname" {
 }
 
 data "aws_ssm_parameter" "dbuser" {
-  name = "/${var.environment}/db-subnet"
+  name = "/${var.environment}/dbuser"
 }
 
 data "aws_ssm_parameter" "dbendpoint" {

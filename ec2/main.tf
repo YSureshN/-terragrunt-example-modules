@@ -35,8 +35,6 @@ resource "aws_autoscaling_group" "autoscaling" {
   }
 }
 
-data "aws_availability_zones" "all" {}
-
 # ---------------------------------------------------------------------------------------------------------------------
 # CREATE THE LAUNCH CONFIGURATION
 # This defines what runs on each EC2 Instance in the ASG. To keep the example simple, we run a plain Ubuntu AMI and
@@ -133,9 +131,8 @@ resource "aws_security_group_rule" "asg_allow_rds_inbound" {
 # ---------------------------------------------------------------------------------------------------------------------
 
 resource "aws_elb" "balancer" {
-  name    = var.name
-  subnets = split(",", data.aws_ssm_parameter.public_subnet.value)
-  #availability_zones = [data.aws_availability_zones.all.names[1], data.aws_availability_zones.all.names[2]]
+  name            = var.name
+  subnets         = split(",", data.aws_ssm_parameter.public_subnet.value)
   security_groups = [aws_security_group.elb.id]
 
   listener {

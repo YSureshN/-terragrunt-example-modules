@@ -128,6 +128,15 @@ resource "aws_security_group_rule" "asg_allow_rds_inbound" {
   security_group_id        = aws_security_group.asg.id
 }
 
+resource "aws_security_group_rule" "asg_allow_all_outbound" {
+  type              = "egress"
+  from_port         = 0
+  to_port           = 0
+  protocol          = "-1"
+  cidr_blocks       = [var.public_route]
+  security_group_id = aws_security_group.asg.id
+}
+
 # ---------------------------------------------------------------------------------------------------------------------
 # CREATE AN ELB TO ROUTE TRAFFIC ACROSS THE ASG
 # ---------------------------------------------------------------------------------------------------------------------
@@ -170,7 +179,7 @@ resource "aws_security_group_rule" "elb_allow_http_inbound" {
   from_port         = var.elb_port
   to_port           = var.elb_port
   protocol          = "tcp"
-  cidr_blocks       = ["0.0.0.0/0"]
+  cidr_blocks       = [var.public_route]
   security_group_id = aws_security_group.elb.id
 }
 
@@ -179,6 +188,6 @@ resource "aws_security_group_rule" "elb_allow_all_outbound" {
   from_port         = 0
   to_port           = 0
   protocol          = "-1"
-  cidr_blocks       = ["0.0.0.0/0"]
+  cidr_blocks       = [var.public_route]
   security_group_id = aws_security_group.elb.id
 }

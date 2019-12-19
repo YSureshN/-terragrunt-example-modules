@@ -24,9 +24,8 @@ resource "aws_security_group_rule" "rds_allow_sql_inbound" {
 }
 
 resource "aws_db_subnet_group" "mysqlsubnet" {
-  name = "${var.name}-mysqlsubnet"
-  #subnet_ids = [split(",", data.aws_ssm_parameter.db_subnet.value)]
-  subnet_ids = [data.aws_ssm_parameter.db_subnet.value]
+  name       = "${var.name}-mysqlsubnet"
+  subnet_ids = split(",", data.aws_ssm_parameter.db_subnet.value)
 }
 
 resource "aws_db_instance" "mysql" {
@@ -49,25 +48,25 @@ resource "aws_db_instance" "mysql" {
 }
 
 resource "aws_ssm_parameter" "security_group_rds" {
-  name  = "/${var.name}/security_group_rds"
+  name  = "/${var.environment}/security_group_rds"
   type  = "String"
   value = aws_security_group.rds.id
 }
 
 resource "aws_ssm_parameter" "dbname" {
-  name  = "/${var.name}/dbname"
+  name  = "/${var.environment}/dbname"
   type  = "String"
   value = aws_db_instance.mysql.name
 }
 
 resource "aws_ssm_parameter" "dbuser" {
-  name  = "/${var.name}/dbuser"
+  name  = "/${var.environment}/dbuser"
   type  = "String"
   value = aws_db_instance.mysql.username
 }
 
 resource "aws_ssm_parameter" "dbendpoint" {
-  name  = "/${var.name}/dbendpoint"
+  name  = "/${var.environment}/dbendpoint"
   type  = "String"
   value = aws_db_instance.mysql.endpoint
 }

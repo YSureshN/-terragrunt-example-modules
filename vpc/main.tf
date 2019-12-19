@@ -137,31 +137,31 @@ resource "aws_route_table_association" "db-association" {
 
 
 resource "aws_ssm_parameter" "vpc_id" {
-  name  = "/${var.name}/vpc_id"
+  name  = "/${var.environment}/vpc_id"
   type  = "String"
   value = aws_vpc.myvpc.id
 }
 
 resource "aws_ssm_parameter" "vpc_cidr" {
-  name  = "/${var.name}/vpc_cidr"
+  name  = "/${var.environment}/vpc_cidr"
   type  = "String"
   value = aws_vpc.myvpc.cidr_block
 }
 
 resource "aws_ssm_parameter" "public_subnet" {
-  name  = "/${var.name}/public-subnet"
+  name  = "/${var.environment}/public-subnet"
   type  = "String"
   value = join(",", aws_subnet.public_subnet.*.id)
 }
 
 resource "aws_ssm_parameter" "private_subnet" {
-  name  = "/${var.name}/private-subnet"
+  name  = "/${var.environment}/private-subnet"
   type  = "String"
   value = join(",", aws_subnet.private_subnet.*.id)
 }
 
 resource "aws_ssm_parameter" "db_subnet" {
-  name  = "/${var.name}/db-subnet"
+  name  = "/${var.environment}/db-subnet"
   type  = "String"
   value = join(",", aws_subnet.db_subnet.*.id)
 }

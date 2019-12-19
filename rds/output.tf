@@ -25,5 +25,5 @@ output "rds_instance_endpoint" {
 
 output "security_group_rds" {
   description = "id of mysql security group"
-  value       = aws_security_group.rdsSG.id
+  value       = aws_security_group.rds.id
 }

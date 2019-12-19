@@ -19,7 +19,7 @@ terraform {
 # ---------------------------------------------------------------------------------------------------------------------
 
 resource "aws_autoscaling_group" "autoscaling" {
-  launch_configuration = aws_launch_configuration.autoscaling.id
+  launch_configuration = aws_launch_configuration.launch_configuration.id
   availability_zones   = data.aws_availability_zones.all.names
 
   load_balancers    = [aws_elb.balancer.name]
@@ -49,11 +49,10 @@ resource "aws_launch_configuration" "launch_configuration" {
   image_id        = data.aws_ami.ami.id
   instance_type   = var.instance_type
   security_groups = [aws_security_group.asg.id]
-  subnet_id              = element(split(",", data.aws_ssm_parameter.private_subnet.value, 0))
-  key_name               = var.key
+  key_name        = var.key
 
 
-        user_data = <<-EOF
+  user_data = <<-EOF
               #!/bin/bash
               sudo su
               yum -y update
@@ -103,12 +102,12 @@ resource "aws_security_group" "asg" {
 }
 
 resource "aws_security_group_rule" "asg_allow_http_inbound" {
-  type              = "ingress"
-  from_port         = var.server_port
-  to_port           = var.server_port
-  protocol          = "tcp"
-  security_groups       = [aws_security_group.elb.id]
-  security_group_id = aws_security_group.asg.id
+  type                     = "ingress"
+  from_port                = var.server_port
+  to_port                  = var.server_port
+  protocol                 = "tcp"
+  source_security_group_id = [aws_security_group.elb.id]
+  security_group_id        = aws_security_group.asg.id
 }
 
 resource "aws_security_group_rule" "asg_allow_ssh" {
@@ -121,12 +120,12 @@ resource "aws_security_group_rule" "asg_allow_ssh" {
 }
 
 resource "aws_security_group_rule" "asg_allow_rds_inbound" {
-  type              = "ingress"
-  from_port         = 3306
-  to_port           = 3306
-  protocol          = "tcp"
-  security_groups       = [data.aws_ssm_parameter.security_group_rds.value]
-  security_group_id = aws_security_group.asg.id
+  type                     = "ingress"
+  from_port                = 3306
+  to_port                  = 3306
+  protocol                 = "tcp"
+  source_security_group_id = [data.aws_ssm_parameter.security_group_rds.value]
+  security_group_id        = aws_security_group.asg.id
 }
 
 # ---------------------------------------------------------------------------------------------------------------------

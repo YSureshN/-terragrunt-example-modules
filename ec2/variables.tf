@@ -1,0 +1,75 @@
+data "aws_ssm_parameter" "security_group_rds" {
+  name = "/${var.name}/security_group_rds"
+}
+
+data "aws_ssm_parameter" "dbname" {
+  name = "/${var.name}/dbname"
+}
+
+data "aws_ssm_parameter" "dbuser" {
+  name = "/${var.name}/db-subnet"
+}
+
+data "aws_ssm_parameter" "dbendpoint" {
+  name = "/${var.name}/dbendpoint"
+}
+
+data "aws_ssm_parameter" "private_subnet" {
+  name = "/${var.name}/private-subnet"
+}
+
+##############
+variable "environment" {
+  type    = string
+  default = ""
+}
+
+variable "my_ip" {
+  type    = string
+  default = ""
+}
+
+variable "key" {
+  type    = string
+  default = ""
+}
+
+variable "dbpass" {
+  type    = string
+  default = ""
+}
+
+variable "aws_region" {
+  description = "The AWS region to deploy to (e.g. us-east-1)"
+  type        = string
+}
+
+variable "name" {
+  description = "The name for the ASG. This name is also used to namespace all the other resources created by this module."
+  type        = string
+}
+
+variable "instance_type" {
+  description = "The type of EC2 Instnaces to run in the ASG (e.g. t2.micro)"
+  type        = string
+}
+
+variable "min_size" {
+  description = "The minimum number of EC2 Instances to run in the ASG"
+  type        = number
+}
+
+variable "max_size" {
+  description = "The maximum number of EC2 Instances to run in the ASG"
+  type        = number
+}
+
+variable "server_port" {
+  description = "The port number the web server on each EC2 Instance should listen on for HTTP requests"
+  type        = number
+}
+
+variable "elb_port" {
+  description = "The port number the ELB should listen on for HTTP requests"
+  type        = number
+}

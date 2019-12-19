@@ -23,7 +23,7 @@ variable "public_route" {
 }
 
 variable "public_subnets_cidr" {
-  type        = "list"
+  type        = list
   default     = []
   description = "cidr blocks of public subnets with full access to internet"
 }

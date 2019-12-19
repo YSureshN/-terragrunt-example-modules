@@ -139,29 +139,29 @@ resource "aws_route_table_association" "db-association" {
 resource "aws_ssm_parameter" "vpc_id" {
   name  = "/${var.name}/vpc_id"
   type  = "String"
-  value = "${aws_vpc.myvpc.id}"
+  value = [aws_vpc.myvpc.id]
 }
 
 resource "aws_ssm_parameter" "vpc_cidr" {
   name  = "/${var.name}/vpc_cidr"
   type  = "String"
-  value = "${aws_vpc.myvpc.cidr_block}"
+  value = [aws_vpc.myvpc.cidr_block]
 }
 
 resource "aws_ssm_parameter" "public_subnet" {
   name  = "/${var.name}/public-subnet"
   type  = "StringList"
-  value = "${aws_subnet.public_subnet.0.id}", "${aws_subnet.public_subnet.1.id}"]
+  value = [aws_subnet.public_subnet.0.id, aws_subnet.public_subnet.1.id]
 }
 
 resource "aws_ssm_parameter" "private_subnet" {
   name  = "/${var.name}/private-subnet"
   type  = "StringList"
-  value = "${aws_subnet.private_subnet.0.id}", "${aws_subnet.private_subnet.1.id}"]
+  value = [aws_subnet.private_subnet.0.id, aws_subnet.private_subnet.1.id]
 }
 
 resource "aws_ssm_parameter" "db_subnet" {
   name  = "/${var.name}/db-subnet"
   type  = "StringList"
-  value = "${aws_subnet.db_subnet.0.id}", "${aws_subnet.db_subnet.1.id}"]
+  value = [aws_subnet.db_subnet.0.id, aws_subnet.db_subnet.1.id]
 }

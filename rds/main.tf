@@ -50,23 +50,23 @@ resource "aws_db_instance" "mysql" {
 resource "aws_ssm_parameter" "security_group_rds" {
   name  = "/${var.name}/security_group_rds"
   type  = "String"
-  value = "${aws_security_group.rds.id}"
+  value = [aws_security_group.rds.id]
 }
 
 resource "aws_ssm_parameter" "dbname" {
   name  = "/${var.name}/dbname"
   type  = "String"
-  value = "${aws_db_instance.mysql.name}"
+  value = [aws_db_instance.mysql.name]
 }
 
 resource "aws_ssm_parameter" "dbuser" {
   name  = "/${var.name}/dbuser"
   type  = "String"
-  value = "${aws_db_instance.mysql.username}"
+  value = [aws_db_instance.mysql.username]
 }
 
 resource "aws_ssm_parameter" "dbendpoint" {
   name  = "/${var.name}/dbendpoint"
   type  = "String"
-  value = "${aws_db_instance.mysql.endpoint}"
+  value = [aws_db_instance.mysql.endpoint]
 }

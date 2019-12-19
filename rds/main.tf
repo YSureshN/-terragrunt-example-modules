@@ -9,6 +9,14 @@ terraform {
   required_version = "= 0.12.18"
 }
 
+data "aws_ssm_parameter" "vpc_cidr" {
+  name = "/${var.name}/vpc_cidr"
+}
+
+data "aws_ssm_parameter" "db_subnet" {
+  name = "/${var.name}/db-subnet"
+}
+
 #Creating security group for EFS mount
 resource "aws_security_group" "rds" {
   name = "${var.name}-rds"

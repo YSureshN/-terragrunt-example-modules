@@ -133,10 +133,10 @@ resource "aws_security_group_rule" "asg_allow_rds_inbound" {
 # ---------------------------------------------------------------------------------------------------------------------
 
 resource "aws_elb" "balancer" {
-  name               = var.name
-  availability_zones = data.aws_availability_zones.all.names
-  security_groups    = [aws_security_group.elb.id]
-  subnets            = split(",", data.aws_ssm_parameter.public_subnet.value)
+  name    = var.name
+  subnets = split(",", data.aws_ssm_parameter.public_subnet.value)
+  #availability_zones = [data.aws_availability_zones.all.names[1], data.aws_availability_zones.all.names[2]]
+  security_groups = [aws_security_group.elb.id]
 
   listener {
     lb_port           = var.elb_port

@@ -11,7 +11,8 @@ terraform {
 
 #Creating security group for EFS mount
 resource "aws_security_group" "rds" {
-  name = "${var.name}-rds"
+  name   = "${var.name}-rds"
+  vpc_id = data.aws_ssm_parameter.vpc_id.value
 }
 
 resource "aws_security_group_rule" "rds_allow_sql_inbound" {

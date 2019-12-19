@@ -154,11 +154,11 @@ resource "aws_elb" "balancer" {
   }
 
   health_check {
-    healthy_threshold   = 2
-    unhealthy_threshold = 2
-    timeout             = 3
-    interval            = 30
-    target              = "HTTP:${var.server_port}/"
+    healthy_threshold   = 3
+    unhealthy_threshold = 5
+    timeout             = 5
+    interval            = 20
+    target              = "HTTP:${var.server_port}/readme.html"
   }
 }
 

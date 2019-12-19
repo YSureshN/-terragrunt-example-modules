@@ -10,7 +10,10 @@ terraform {
 }
 
 
-#Creating VPC
+# ---------------------------------------------------------------------------------------------------------------------
+# CREATE VPC
+# ---------------------------------------------------------------------------------------------------------------------
+
 resource "aws_vpc" "myvpc" {
   cidr_block           = var.vpc_cidr
   enable_dns_support   = true
@@ -21,7 +24,10 @@ resource "aws_vpc" "myvpc" {
   }
 }
 
-#Internet gateway
+# ---------------------------------------------------------------------------------------------------------------------
+# CREATE PUBLIC SUBNETS BLOCK
+# ---------------------------------------------------------------------------------------------------------------------
+
 resource "aws_internet_gateway" "public_gateway" {
   vpc_id = aws_vpc.myvpc.id
   tags = {
@@ -29,7 +35,6 @@ resource "aws_internet_gateway" "public_gateway" {
   }
 }
 
-#Route table: public
 resource "aws_route_table" "public_route" {
   vpc_id = aws_vpc.myvpc.id
   route {
@@ -41,7 +46,6 @@ resource "aws_route_table" "public_route" {
   }
 }
 
-#Subnets: public
 resource "aws_subnet" "public_subnet" {
   count                   = length(var.public_subnets_cidr)
   vpc_id                  = aws_vpc.myvpc.id
@@ -52,7 +56,6 @@ resource "aws_subnet" "public_subnet" {
   }
 }
 
-#Route table associations: public
 resource "aws_route_table_association" "public" {
   count          = length(var.public_subnets_cidr)
   subnet_id      = element(aws_subnet.public_subnet.*.id, count.index)
@@ -60,7 +63,10 @@ resource "aws_route_table_association" "public" {
   depends_on     = [aws_route_table.public_route]
 }
 
-#Subnets: private
+# ---------------------------------------------------------------------------------------------------------------------
+# CREATE PRIVATE SUBNETS/NAT BLOCK
+# ---------------------------------------------------------------------------------------------------------------------
+
 resource "aws_subnet" "private_subnet" {
   count                   = length(var.private_subnets_cidr)
   vpc_id                  = aws_vpc.myvpc.id
@@ -71,13 +77,11 @@ resource "aws_subnet" "private_subnet" {
   }
 }
 
-#EIP: allocation elastic ips for nat gateway
 resource "aws_eip" "nat_eip" {
   count = length(aws_subnet.private_subnet)
   vpc   = true
 }
 
-#NAT gateway
 resource "aws_nat_gateway" "nat-gw" {
   count         = length(var.public_subnets_cidr)
   allocation_id = element(aws_eip.nat_eip.*.id, count.index)
@@ -86,7 +90,6 @@ resource "aws_nat_gateway" "nat-gw" {
 
 }
 
-#Route table: private
 resource "aws_route_table" "private_route" {
   count      = length(var.private_subnets_cidr)
   vpc_id     = aws_vpc.myvpc.id
@@ -100,7 +103,6 @@ resource "aws_route_table" "private_route" {
   }
 }
 
-#Route table associations: private
 resource "aws_route_table_association" "association-private" {
   count          = length(var.private_subnets_cidr)
   subnet_id      = element(aws_subnet.private_subnet.*.id, count.index)
@@ -108,7 +110,10 @@ resource "aws_route_table_association" "association-private" {
   depends_on     = [aws_route_table.private_route]
 }
 
-#Subnets: database
+# ---------------------------------------------------------------------------------------------------------------------
+# CREATE DB SUBNETS BLOCK
+# ---------------------------------------------------------------------------------------------------------------------
+
 resource "aws_subnet" "db_subnet" {
   count                   = length(var.db_subnets_cidr)
   vpc_id                  = aws_vpc.myvpc.id
@@ -119,7 +124,6 @@ resource "aws_subnet" "db_subnet" {
   }
 }
 
-#Route table: database.
 resource "aws_route_table" "db_route" {
   vpc_id = aws_vpc.myvpc.id
   tags = {
@@ -127,7 +131,6 @@ resource "aws_route_table" "db_route" {
   }
 }
 
-#Route table association: database
 resource "aws_route_table_association" "db-association" {
   count          = length(var.db_subnets_cidr)
   subnet_id      = element(aws_subnet.db_subnet.*.id, count.index)
@@ -135,6 +138,10 @@ resource "aws_route_table_association" "db-association" {
   depends_on     = [aws_route_table.db_route]
 }
 
+
+# ---------------------------------------------------------------------------------------------------------------------
+# CREATE SSM PARAMETERS TO USE IN OTHER MODULES
+# ---------------------------------------------------------------------------------------------------------------------
 
 resource "aws_ssm_parameter" "vpc_id" {
   name  = "/${var.environment}/vpc_id"

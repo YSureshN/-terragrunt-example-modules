@@ -1,5 +1,3 @@
-
-
 output "url" {
   value = "http://${aws_elb.balancer.dns_name}:${var.elb_port}"
 }

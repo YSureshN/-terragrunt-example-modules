@@ -9,7 +9,10 @@ terraform {
   required_version = "= 0.12.18"
 }
 
-#Creating security group for EFS mount
+# ---------------------------------------------------------------------------------------------------------------------
+# CREATE A SECURITY GROUP and SUBNET GROUP FOR THE RDS
+# ---------------------------------------------------------------------------------------------------------------------
+
 resource "aws_security_group" "rds" {
   name   = "${var.name}-rds"
   vpc_id = data.aws_ssm_parameter.vpc_id.value
@@ -29,6 +32,10 @@ resource "aws_db_subnet_group" "mysqlsubnet" {
   subnet_ids = split(",", data.aws_ssm_parameter.db_subnet.value)
 }
 
+# ---------------------------------------------------------------------------------------------------------------------
+# CREATE RDS DB INSTANCE
+# ---------------------------------------------------------------------------------------------------------------------
+
 resource "aws_db_instance" "mysql" {
   engine                 = "mysql"
   engine_version         = "5.7"
@@ -47,6 +54,10 @@ resource "aws_db_instance" "mysql" {
     Name = "${var.name}-mysql"
   }
 }
+
+# ---------------------------------------------------------------------------------------------------------------------
+# CREATE SSM PARAMETERS TO USE IN OTHER MODULES
+# ---------------------------------------------------------------------------------------------------------------------
 
 resource "aws_ssm_parameter" "security_group_rds" {
   name  = "/${var.environment}/security_group_rds"

@@ -6,10 +6,8 @@ provider "aws" {
 }
 
 terraform {
-  # The configuration for this backend will be filled in by Terragrunt.
   backend "s3" {}
 
-  # Live modules pin exact Terraform version; generic modules let consumers pin the version.
   # The latest version of Terragrunt (v0.19.0 and above) requires Terraform 0.12.0 or above.
   required_version = "= 0.12.18"
 }
@@ -39,10 +37,6 @@ data "aws_availability_zones" "all" {}
 
 # ---------------------------------------------------------------------------------------------------------------------
 # CREATE THE LAUNCH CONFIGURATION
-# This defines what runs on each EC2 Instance in the ASG. To keep the example simple, we run a plain Ubuntu AMI and
-# configure a User Data scripts that runs a dirt-simple "Hello, World" web server. In real-world usage, you'd want to
-# package the web server code into a custom AMI (rather than shoving it into User Data) and pass in the ID of that AMI
-# as a variable.
 # ---------------------------------------------------------------------------------------------------------------------
 
 resource "aws_launch_configuration" "launch_configuration" {
@@ -89,11 +83,8 @@ data "aws_ami" "ami" {
     values = ["amzn2-ami-hvm-2.0.*-x86_64-gp2"]
   }
 }
-
 # ---------------------------------------------------------------------------------------------------------------------
 # CREATE A SECURITY GROUP FOR THE ASG
-# To keep the example simple, we configure the EC2 Instances to allow inbound traffic from anywhere. In real-world
-# usage, you should lock the Instances down so they only allow traffic from trusted sources (e.g. the ELB).
 # ---------------------------------------------------------------------------------------------------------------------
 
 resource "aws_security_group" "asg" {
@@ -164,9 +155,6 @@ resource "aws_elb" "balancer" {
 
 # ---------------------------------------------------------------------------------------------------------------------
 # CREATE A SECURITY GROUP FOR THE ELB
-# To keep the example simple, we configure the ELB to allow inbound requests from anywhere. We also allow it to make
-# outbound requests to anywhere so it can perform health checks. In real-world usage, you should lock the ELB down
-# so it only allows traffic to/from trusted sources.
 # ---------------------------------------------------------------------------------------------------------------------
 
 resource "aws_security_group" "elb" {

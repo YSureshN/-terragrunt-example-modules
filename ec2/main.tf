@@ -106,7 +106,7 @@ resource "aws_security_group_rule" "asg_allow_http_inbound" {
   from_port                = var.server_port
   to_port                  = var.server_port
   protocol                 = "tcp"
-  source_security_group_id = [aws_security_group.elb.id]
+  source_security_group_id = aws_security_group.elb.id
   security_group_id        = aws_security_group.asg.id
 }
 
@@ -124,7 +124,7 @@ resource "aws_security_group_rule" "asg_allow_rds_inbound" {
   from_port                = 3306
   to_port                  = 3306
   protocol                 = "tcp"
-  source_security_group_id = [data.aws_ssm_parameter.security_group_rds.value]
+  source_security_group_id = data.aws_ssm_parameter.security_group_rds.value
   security_group_id        = aws_security_group.asg.id
 }
 

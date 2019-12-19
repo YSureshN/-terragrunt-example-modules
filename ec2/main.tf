@@ -1,6 +1,6 @@
 provider "aws" {
-  region = var.aws_region
-
+  region  = var.aws_region
+  profile = terragrunt
   # Live modules pin exact provider version; generic modules let consumers pin the version.
   version = "= 2.42.0"
 }

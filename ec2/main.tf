@@ -21,9 +21,9 @@ terraform {
 resource "aws_autoscaling_group" "autoscaling" {
   launch_configuration = aws_launch_configuration.launch_configuration.id
   availability_zones   = data.aws_availability_zones.all.names
-
-  load_balancers    = [aws_elb.balancer.name]
-  health_check_type = "ELB"
+  vpc_zone_identifier  = split(",", data.aws_ssm_parameter.private_subnet.value)
+  load_balancers       = [aws_elb.balancer.name]
+  health_check_type    = "ELB"
 
   min_size = var.min_size
   max_size = var.max_size
@@ -98,7 +98,8 @@ data "aws_ami" "ami" {
 # ---------------------------------------------------------------------------------------------------------------------
 
 resource "aws_security_group" "asg" {
-  name = "${var.name}-asg"
+  name   = "${var.name}-asg"
+  vpc_id = data.aws_ssm_parameter.vpc_id.value
 }
 
 resource "aws_security_group_rule" "asg_allow_http_inbound" {
@@ -136,6 +137,7 @@ resource "aws_elb" "balancer" {
   name               = var.name
   availability_zones = data.aws_availability_zones.all.names
   security_groups    = [aws_security_group.elb.id]
+  subnets            = split(",", data.aws_ssm_parameter.public_subnet.value)
 
   listener {
     lb_port           = var.elb_port
@@ -161,7 +163,8 @@ resource "aws_elb" "balancer" {
 # ---------------------------------------------------------------------------------------------------------------------
 
 resource "aws_security_group" "elb" {
-  name = "${var.name}-elb"
+  name   = "${var.name}-elb"
+  vpc_id = data.aws_ssm_parameter.vpc_id.value
 }
 
 resource "aws_security_group_rule" "elb_allow_http_inbound" {

@@ -1,41 +1,24 @@
-# data "aws_availability_zones" "available" {
-#   state = "available"
-# }
-#-------------------------------------------
-variable "aws_region" {
-  default = ""
-}
+variable "aws_region" {}
 
-variable "environment" {
-  default = ""
-}
+variable "environment" {}
 
-variable "name" {
-  default = ""
-}
+variable "name" {}
 
-variable "vpc_cidr" {
-  default = ""
-}
+variable "vpc_cidr" {}
 
-variable "public_route" {
-  default = ""
-}
+variable "public_route" {}
 
 variable "public_subnets_cidr" {
-  type        = list
-  default     = []
-  description = "cidr blocks of public subnets with full access to internet"
+  type    = list
+  default = []
 }
 
 variable "private_subnets_cidr" {
-  type        = list
-  default     = []
-  description = "cidr blocks of private subnets with access through NAT"
+  type    = list
+  default = []
 }
 
 variable "db_subnets_cidr" {
-  type        = list
-  default     = []
-  description = "cidr blocks of db subnets with no access to internet"
+  type    = list
+  default = []
 }

@@ -1,55 +1,27 @@
-##############
-variable "environment" {
-  type    = string
-  default = ""
-}
+variable "environment" {}
 
-variable "my_ip" {
-  type    = string
-  default = ""
-}
+variable "my_ip" {}
 
-variable "key" {
-  type    = string
-  default = ""
-}
+variable "key" {}
 
-variable "dbpass" {
-  type    = string
-  default = ""
-}
+variable "dbpass" {}
 
-variable "aws_region" {
-  description = "The AWS region to deploy to (e.g. us-east-1)"
-  type        = string
-}
+variable "aws_region" {}
 
-variable "name" {
-  description = "The name for the ASG. This name is also used to namespace all the other resources created by this module."
-  type        = string
-}
+variable "name" {}
 
-variable "instance_type" {
-  description = "The type of EC2 Instnaces to run in the ASG (e.g. t2.micro)"
-  type        = string
-}
+variable "public_route" {}
 
-variable "min_size" {
-  description = "The minimum number of EC2 Instances to run in the ASG"
-  type        = number
-}
+variable "instance_type" {}
 
-variable "max_size" {
-  description = "The maximum number of EC2 Instances to run in the ASG"
-  type        = number
-}
+variable "min_size" {}
+
+variable "max_size" {}
 
 variable "server_port" {
-  description = "The port number the web server on each EC2 Instance should listen on for HTTP requests"
-  type        = number
+  type = number
 }
 
 variable "elb_port" {
-  description = "The port number the ELB should listen on for HTTP requests"
-  type        = number
+  type = number
 }

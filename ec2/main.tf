@@ -8,7 +8,7 @@ provider "aws" {
 terraform {
   backend "s3" {}
 
-  # The latest version of Terragrunt (v0.19.0 and above) requires Terraform 0.12.0 or above.
+  # The latest version of Terragrunt (v0.19.0 and above) requires Terraform 0.12.0 or above
   required_version = "= 0.12.18"
 }
 

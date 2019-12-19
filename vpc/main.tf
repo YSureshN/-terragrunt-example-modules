@@ -145,7 +145,7 @@ resource "aws_ssm_parameter" "vpc_id" {
 resource "aws_ssm_parameter" "vpc_cidr" {
   name  = "/${var.name}/vpc_cidr"
   type  = "String"
-  value = "${aws_vpc.myvpc.cidr}"
+  value = "${aws_vpc.myvpc.cidr_block}"
 }
 
 resource "aws_ssm_parameter" "public_subnet" {

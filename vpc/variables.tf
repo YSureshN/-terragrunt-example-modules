@@ -18,6 +18,10 @@ variable "vpc_cidr" {
   default = ""
 }
 
+variable "public_route" {
+  default = ""
+}
+
 variable "public_subnets_cidr" {
   type        = "list"
   default     = []

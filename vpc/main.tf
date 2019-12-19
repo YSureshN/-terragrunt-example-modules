@@ -150,18 +150,18 @@ resource "aws_ssm_parameter" "vpc_cidr" {
 
 resource "aws_ssm_parameter" "public_subnet" {
   name  = "/${var.name}/public-subnet"
-  type  = "StringList"
-  value = aws_subnet.public_subnet.0.id,aws_subnet.public_subnet.1.id
+  type  = "String"
+  value = join(",", aws_subnet.public_subnet.*.id)
 }
 
 resource "aws_ssm_parameter" "private_subnet" {
   name  = "/${var.name}/private-subnet"
-  type  = "StringList"
-  value = aws_subnet.private_subnet.0.id,aws_subnet.private_subnet.1.id
+  type  = "String"
+  value = join(",", aws_subnet.private_subnet.*.id)
 }
 
 resource "aws_ssm_parameter" "db_subnet" {
   name  = "/${var.name}/db-subnet"
-  type  = "StringList"
-  value = aws_subnet.db_subnet.0.id,aws_subnet.db_subnet.1.id
+  type  = "String"
+  value = join(",", aws_subnet.db_subnet.*.id)
 }

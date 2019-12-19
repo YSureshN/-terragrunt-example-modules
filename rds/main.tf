@@ -24,8 +24,9 @@ resource "aws_security_group_rule" "rds_allow_sql_inbound" {
 }
 
 resource "aws_db_subnet_group" "mysqlsubnet" {
-  name       = "${var.name}-mysqlsubnet"
-  subnet_ids = [split(",", data.aws_ssm_parameter.db_subnet.value)]
+  name = "${var.name}-mysqlsubnet"
+  #subnet_ids = [split(",", data.aws_ssm_parameter.db_subnet.value)]
+  subnet_ids = [data.aws_ssm_parameter.db_subnet.value]
 }
 
 resource "aws_db_instance" "mysql" {

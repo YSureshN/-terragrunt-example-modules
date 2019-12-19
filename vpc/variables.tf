@@ -29,13 +29,13 @@ variable "public_subnets_cidr" {
 }
 
 variable "private_subnets_cidr" {
-  type        = "list"
+  type        = list
   default     = []
   description = "cidr blocks of private subnets with access through NAT"
 }
 
 variable "db_subnets_cidr" {
-  type        = "list"
+  type        = list
   default     = []
   description = "cidr blocks of db subnets with no access to internet"
 }

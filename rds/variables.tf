@@ -1,14 +1,3 @@
-# variable "db_subnet_id" {
-#   description = "DB subnet ids"
-#   type        = list
-#   default     = []
-# }
-
-# variable "vpc_id" {
-#   type    = "string"
-#   default = ""
-# }
-
 variable "environment" {
   type    = string
   default = ""
@@ -18,11 +7,6 @@ variable "name" {
   type    = string
   default = ""
 }
-
-# variable "vpc_cidr" {
-#   type    = string
-#   default = ""
-# }
 
 variable "aws_region" {
   description = "The AWS region to deploy to (e.g. us-east-1)"

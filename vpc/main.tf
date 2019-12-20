@@ -9,7 +9,7 @@ terraform {
   required_version = "= 0.12.18"
 }
 
-
+data "aws_availability_zones" "all" {}
 # ---------------------------------------------------------------------------------------------------------------------
 # CREATE VPC
 # ---------------------------------------------------------------------------------------------------------------------
@@ -49,6 +49,7 @@ resource "aws_route_table" "public_route" {
 resource "aws_subnet" "public_subnet" {
   count                   = length(var.public_subnets_cidr)
   vpc_id                  = aws_vpc.myvpc.id
+  availability_zone       = element(data.aws_availability_zones.all.names, count.index)
   cidr_block              = element(var.public_subnets_cidr, count.index)
   map_public_ip_on_launch = true
   tags = {
@@ -70,6 +71,7 @@ resource "aws_route_table_association" "public" {
 resource "aws_subnet" "private_subnet" {
   count                   = length(var.private_subnets_cidr)
   vpc_id                  = aws_vpc.myvpc.id
+  availability_zone       = element(data.aws_availability_zones.all.names, count.index)
   cidr_block              = element(var.private_subnets_cidr, count.index)
   map_public_ip_on_launch = false
   tags = {
@@ -117,6 +119,7 @@ resource "aws_route_table_association" "association-private" {
 resource "aws_subnet" "db_subnet" {
   count                   = length(var.db_subnets_cidr)
   vpc_id                  = aws_vpc.myvpc.id
+  availability_zone       = element(data.aws_availability_zones.all.names, count.index)
   cidr_block              = element(var.db_subnets_cidr, count.index)
   map_public_ip_on_launch = false
   tags = {

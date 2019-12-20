@@ -4,8 +4,6 @@ variable "my_ip" {}
 
 variable "key" {}
 
-variable "dbpass" {}
-
 variable "aws_region" {}
 
 variable "name" {}

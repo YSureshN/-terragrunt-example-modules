@@ -1,6 +1,6 @@
 Repository contains modules to utilize in infrastructure patterns defined in another repo: https://github.com/slitsevych/terragrunt-example-live
 
-Modules only contain Terraform code and all variable data is set as a variable {}
+Modules only contain Terraform code and all variables data is set as a variable {}
 
 Outputs from modules are being exchanged through "discovered" configuration data method in the way as it was proposed in 
 https://github.com/solsglasses/terraform-control

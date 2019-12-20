@@ -32,6 +32,22 @@ resource "aws_db_subnet_group" "mysqlsubnet" {
   subnet_ids = split(",", data.aws_ssm_parameter.db_subnet.value)
 }
 
+resource "random_string" "main" {
+  length  = 16
+  special = true
+}
+
+resource "aws_ssm_parameter" "dbpass" {
+  type  = "SecureString"
+  name  = "/${var.environment}/dbpass"
+  value = random_string.main.result
+}
+
+data "aws_ssm_parameter" "dbpass" {
+  name       = "/${var.environment}/dbpass"
+  depends_on = [aws_ssm_parameter.dbpass]
+}
+
 # ---------------------------------------------------------------------------------------------------------------------
 # CREATE RDS DB INSTANCE
 # ---------------------------------------------------------------------------------------------------------------------
@@ -39,12 +55,14 @@ resource "aws_db_subnet_group" "mysqlsubnet" {
 resource "aws_db_instance" "mysql" {
   engine                 = "mysql"
   engine_version         = "5.7"
+  identifier             = "${var.name}-mysql"
   instance_class         = var.instance_class
   allocated_storage      = var.allocated_storage
   storage_type           = var.storage_type
   name                   = var.name
-  username               = var.master_username
-  password               = var.master_password
+  username               = var.rds_username
+  password               = data.aws_ssm_parameter.dbpass.value
+  port                   = var.rds_port
   db_subnet_group_name   = aws_db_subnet_group.mysqlsubnet.name
   vpc_security_group_ids = [aws_security_group.rds.id]
   skip_final_snapshot    = true

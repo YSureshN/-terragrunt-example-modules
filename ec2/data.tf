@@ -25,3 +25,7 @@ data "aws_ssm_parameter" "dbuser" {
 data "aws_ssm_parameter" "dbendpoint" {
   name = "/${var.environment}/dbendpoint"
 }
+
+data "aws_ssm_parameter" "dbpass" {
+  name = "/${var.environment}/dbpass"
+}

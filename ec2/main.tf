@@ -67,7 +67,7 @@ resource "aws_launch_configuration" "launch_configuration" {
               sed -i "/DB_HOST/s/'[^']*'/'${data.aws_ssm_parameter.dbendpoint.value}'/2" wp-config.php
               sed -i "/DB_NAME/s/'[^']*'/'${data.aws_ssm_parameter.dbname.value}'/2" wp-config.php
               sed -i "/DB_USER/s/'[^']*'/'${data.aws_ssm_parameter.dbuser.value}'/2" wp-config.php
-              sed -i "/DB_PASSWORD/s/'[^']*'/'${var.dbpass}'/2" wp-config.php
+              sed -i "/DB_PASSWORD/s/'[^']*'/'${data.aws_ssm_parameter.dbpass.value}'/2" wp-config.php
              EOF
 
   lifecycle {

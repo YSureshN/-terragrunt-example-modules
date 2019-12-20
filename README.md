@@ -12,4 +12,4 @@ etc.
 All variable configuration data that is shared between modules is done with AWS's SSM Parameter Store.
 This has the added benefit of being able to share data with 3rd party tools outside of Terraform.
 
-Other methods (like data.terraform_remote_state, or outputs {}) are not being used intentionally.
+Other methods (e.g. data.terraform_remote_state, or outputs {}) are not being used intentionally.

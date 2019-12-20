@@ -12,6 +12,7 @@ terraform {
 # ---------------------------------------------------------------------------------------------------------------------
 # CREATE A SECURITY GROUP and SUBNET GROUP FOR THE RDS
 # ---------------------------------------------------------------------------------------------------------------------
+resource "null_resource" "example" {}
 
 resource "aws_security_group" "rds" {
   name   = "${var.name}-rds"

@@ -10,8 +10,6 @@ variable "storage_type" {}
 
 variable "rds_username" {}
 
-#variable "password" {}
-
 variable "allocated_storage" {
   type = number
 }

@@ -55,7 +55,7 @@ data "aws_ssm_parameter" "dbpass" {
 resource "aws_db_instance" "mysql" {
   engine                 = "mysql"
   engine_version         = "5.7"
-  identifier             = "${var.name}-mysql"
+  identifier             = "${var.name}_mysql"
   instance_class         = var.instance_class
   allocated_storage      = var.allocated_storage
   storage_type           = var.storage_type

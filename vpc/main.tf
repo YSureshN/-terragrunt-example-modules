@@ -6,7 +6,7 @@ provider "aws" {
 
 terraform {
   backend "s3" {}
-  required_version = "= 0.12.18"
+  required_version = "= 0.12.20"
 }
 
 data "aws_availability_zones" "all" {}

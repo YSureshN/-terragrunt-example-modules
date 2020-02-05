@@ -9,7 +9,6 @@ Discovered Configuration Data are attributes of resources that Terraform has cre
 The VPC module needs to share subnets data with RDS module, the RDS module needs to share its endpoint with the Ec2 module,
 etc.
 
-All variable configuration data that is shared between modules is done with AWS's SSM Parameter Store.
-This has the added benefit of being able to share data with 3rd party tools outside of Terraform.
+All variables configuration data which is being shared between modules gets created by AWS's SSM Parameter Store. This has the added benefit of being able to share data with 3rd party tools outside of Terraform.
 
 Other methods (e.g. data.terraform_remote_state, or outputs {}) are not being used intentionally.
